@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="./static/jquery-latest.min.js"></script>
+    <script src="./static/bcmath-min.js"></script>
+    <script src="./static/pdf417-min.js"></script>
+    <script src="./static/BarcodePayment.js"></script>
+
+    <script type="text/javascript">
+
+        jQuery(document).ready(function () {
+            // Initialize the library
+            BarcodePayment.Init({
+                ValidateIBAN: false, // Validation is not yet implemented
+                ValidateModelPozivNaBroj: true // Validation is not yet implemented
+            });
+
+            // Populate intent codes (sample code in case you need dynamic population, if not, the prepopulated html is commented out in the select element)
+            var sifraNamjeneDropdown = jQuery("#sifraNamjene");
+            sifraNamjeneDropdown.append($("<option />").val("").text("-").attr('selected', 'selected'));
+            $.each(BarcodePayment.IntentCodes, function () {
+                sifraNamjeneDropdown.append($("<option />").val(this.code).text(this.title));
+            });
+
+            // Populate payment models (sample code in case you need dynamic population, if not, the prepopulated html is commented out in the select element)
+            var modelPlacanjaDropdown = jQuery("#modelPlacanja");
+            modelPlacanjaDropdown.append($("<option />").val("").text("").attr('selected', 'selected'));
+            $.each(BarcodePayment.PaymentModels, function () {
+                modelPlacanjaDropdown.append($("<option />").val(this.model).text(this.model));
+            });
+
+            // TODO: Add sample code for dynamic setting of maxlength properties on elements
+
+            GenerirajBarkod();
+        });
+
+        function GetPaymentParams() {
+            var paymentParams = new BarcodePayment.PaymentParams();
+            const p = new URLSearchParams(window.location.search);
+
+            console.log(window.location.search);
+
+            if (!p.has('iznos') || !p.has('IBAN') || !p.has('modelPlacanja') || !p.has('pozivNaBroj') || !p.has('opisPlacanja')) {
+                $('#error_missing').show();
+                return null;
+            }
+
+            if (!p.has('sifraNamjene')) {
+                p.set('sifraNamjene', 'COST');
+            }
+
+            function q(name) {
+                var v = p.get(name);
+                if (v !== null) {
+                    return v;
+                }
+                return "";
+            }
+
+            paymentParams.Iznos = q('iznos');
+            paymentParams.ImePlatitelja = q('imePlatitelja');
+            paymentParams.AdresaPlatitelja = q('adresaPlatitelja');
+            paymentParams.SjedistePlatitelja = q('postanskiBrojIMjestoPlatitelja');
+            paymentParams.Primatelj = q('primatelj');
+            paymentParams.AdresaPrimatelja = q('adresaPrimatelja');
+            paymentParams.SjedistePrimatelja = q('postanskiBrojIMjestoPrimatelja');
+            paymentParams.IBAN = q('IBAN');
+            paymentParams.ModelPlacanja = q('modelPlacanja');
+            paymentParams.PozivNaBroj = q('pozivNaBroj');
+            paymentParams.SifraNamjene = q('sifraNamjene');
+            paymentParams.OpisPlacanja = q('opisPlacanja');
+
+            return paymentParams
+        }
+
+        function HandleValidation(paymentParams) {
+            var result = BarcodePayment.ValidatePaymentParams(paymentParams);
+
+            // TODO: result is BarcodePayment.ValidationResult, check which validations failed and display appropriate messages
+        }
+
+        var StringNotDefinedOrEmpty = function (str) {
+            return str == undefined || str == null || str.length == 0;
+        }
+
+        function GenerirajBarkod() {
+            var generateBarcode = true;
+            var paymentParams = GetPaymentParams();
+            if (paymentParams === null) {
+                return;
+            }
+            console.log(paymentParams);
+            var textToEncode = BarcodePayment.GetEncodedText(paymentParams);
+
+            if (textToEncode == BarcodePayment.ResultCode.InvalidContent) {
+                HandleValidation(paymentParams);
+                generateBarcode = false;
+                alert('Sadržaj forme nije ispravan za generiranja barkoda');
+            } else if (textToEncode == BarcodePayment.ResultCode.InvalidObject || StringNotDefinedOrEmpty(textToEncode)) {
+                alert('Došlo je do greške kod generiranja barkoda');
+                generateBarcode = false;
+            }
+
+            // Barcode generation sample copied from library sample
+            PDF417.init(textToEncode);
+            var barcode = PDF417.getBarcodeArray();
+            // block sizes (width and height) in pixels
+            var bw = 2;
+            var bh = 2;
+            // create canvas element based on number of columns and rows in barcode
+            var container = document.getElementById('barcode');
+            if (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+            var canvas = document.createElement('canvas');
+            canvas.width = bw * barcode['num_cols'];
+            canvas.height = bh * barcode['num_rows'];
+            container.appendChild(canvas);
+
+            if (generateBarcode) {
+                var ctx = canvas.getContext('2d');
+                // graph barcode elements
+                var y = 0;
+                // for each row
+                for (var r = 0; r < barcode['num_rows']; ++r) {
+                    var x = 0;
+                    // for each column
+                    for (var c = 0; c < barcode['num_cols']; ++c) {
+                        if (barcode['bcode'][r][c] == 1) {
+                            ctx.fillRect(x, y, bw, bh);
+                        }
+                        x += bw;
+                    }
+                    y += bh;
+                }
+            }
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <div id="barcode" style="display: block; margin-left: auto; margin-right: auto;"></div>
+    <div style="font-family: sans-serif; font-size: small; text-align: center; color: silver;">Bar-kod je generiran s</div>
+
+    <div id="error_missing" style="display: none">
+        <p>Nedostaju argumenti u URL-u!</p>
+    </div>
+
+</body>
+
+</html>
