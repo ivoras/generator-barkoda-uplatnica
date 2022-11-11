@@ -39,8 +39,6 @@
             var paymentParams = new BarcodePayment.PaymentParams();
             const p = new URLSearchParams(window.location.search);
 
-            console.log(window.location.search);
-
             if (!p.has('iznos') || !p.has('IBAN') || !p.has('modelPlacanja') || !p.has('pozivNaBroj') || !p.has('opisPlacanja')) {
                 $('#error_missing').show();
                 return null;
@@ -90,7 +88,6 @@
             if (paymentParams === null) {
                 return;
             }
-            console.log(paymentParams);
             var textToEncode = BarcodePayment.GetEncodedText(paymentParams);
 
             if (textToEncode == BarcodePayment.ResultCode.InvalidContent) {
@@ -114,9 +111,16 @@
                 container.removeChild(container.firstChild);
             }
             var canvas = document.createElement('canvas');
+            canvas.style["margin-left"] = "auto";
+            canvas.style["margin-right"] = "auto";
+            canvas.style["display"] = "block";
             canvas.width = bw * barcode['num_cols'];
             canvas.height = bh * barcode['num_rows'];
+
             container.appendChild(canvas);
+
+            container.style["margin-left"] = "auto";
+            container.style["margin-right"] = "auto";
 
             if (generateBarcode) {
                 var ctx = canvas.getContext('2d');
