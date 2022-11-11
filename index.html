@@ -14,6 +14,9 @@
 
 	<script type="text/javascript">
 
+		iframe_base = "https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html";
+		iframe_url = iframe_base + "?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije";
+
 		jQuery(document).ready(function () {
 			// Initialize the library
 			BarcodePayment.Init({
@@ -69,7 +72,7 @@
 			paymentParams.ModelPlacanja = getValueByElementId('modelPlacanja');
 			paymentParams.PozivNaBroj = getValueByElementId('pozivNaBroj');
 			paymentParams.SifraNamjene = getValueByElementId('sifraNamjene');
-			paymentParams.OpisPlacanja = getValueByElementId('opisPlacanja');
+			paymentParams.OpisPlacanja = getValueByElementId('opisPlacanja');			
 
 			return paymentParams
 		}
@@ -84,9 +87,18 @@
 			return str == undefined || str == null || str.length == 0;
 		}
 
+		function updateIFRAMEurl() {
+			$("#iframe_code_url").text(iframe_url);
+			document.getElementById("iframe").src = iframe_url;
+		}
+
 		function GenerirajBarkod() {
 			var generateBarcode = true;
 			var paymentParams = GetPaymentParams();
+
+			iframe_url = iframe_base + "?iznos=" + paymentParams.Iznos + "&IBAN=" + paymentParams.IBAN + "&modelPlacanja=" + paymentParams.ModelPlacanja + "&pozivNaBroj=" + paymentParams.PozivNaBroj + "&opisPlacanja=" + paymentParams.OpisPlacanja;
+			updateIFRAMEurl();
+
 			var textToEncode = BarcodePayment.GetEncodedText(paymentParams);
 
 			if (textToEncode == BarcodePayment.ResultCode.InvalidContent) {
@@ -416,14 +428,14 @@
 		<h2>IFRAME kod</h2>
 		<p>Da bi koristili ovakav bar kod u web shopu, trebate na odgovarajuće mjesto upisati sljedeći HTML kod:</p>
 		<pre>
-&lt;iframe src="https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije" 
+&lt;iframe src="<span id="iframe_code_url">https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije</span>" 
 title="Barkod" width="450" height="200" style="display: block; margin-left: auto; margin-right: auto"&gt;&lt;/iframe&gt;
 		</pre>
 		<p>Naravno, u odgovarajuća polja trebate upisati svoje podatke, one koje želite da se nađu na uplatnici
 			u mobile banking aplikaciji. Rezultat ovakvog koda će biti:
 		</p>
 
-		<iframe src="iframe.html?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije" title="Barkod" width="450" height="200" style="display: block; margin-left: auto; margin-right: auto"></iframe>
+		<iframe id="iframe" src="https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije" title="Barkod" width="450" height="200" style="display: block; margin-left: auto; margin-right: auto"></iframe>
 
 		<p>Testirano je s WordPressom, gdje je potrebno odabrati "HTML" blok i unutra upisati gornji kod.</p>
 
