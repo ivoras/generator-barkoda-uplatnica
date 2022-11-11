@@ -20,7 +20,7 @@
 				ValidateIBAN: false, // Validation is not yet implemented
 				ValidateModelPozivNaBroj: true // Validation is not yet implemented
 			});
-
+/*
 			// Populate intent codes (sample code in case you need dynamic population, if not, the prepopulated html is commented out in the select element)
 			var sifraNamjeneDropdown = jQuery("#sifraNamjene");
 			sifraNamjeneDropdown.append($("<option />").val("").text("-").attr('selected', 'selected'));
@@ -34,7 +34,7 @@
 			$.each(BarcodePayment.PaymentModels, function () {
 				modelPlacanjaDropdown.append($("<option />").val(this.model).text(this.model));
 			});
-
+*/
 			// TODO: Add sample code for dynamic setting of maxlength properties on elements
 		});
 
@@ -425,7 +425,10 @@ title="Barkod" width="450" height="200" style="display: block; margin-left: auto
 
 		<iframe src="iframe.html?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije" title="Barkod" width="450" height="200" style="display: block; margin-left: auto; margin-right: auto"></iframe>
 
+		<p>Testirano je s WordPressom, gdje je potrebno odabrati "HTML" blok i unutra upisati gornji kod.</p>
 
+		<h2>Credits</h2>
+		<p>Originalni kod je sa <a href="https://bikonja.github.io/generator-barkoda-uplatnica/">https://bikonja.github.io/generator-barkoda-uplatnica/</a></p>
 
 	</div>
 

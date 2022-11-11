@@ -16,20 +16,6 @@
                 ValidateModelPozivNaBroj: true // Validation is not yet implemented
             });
 
-            // Populate intent codes (sample code in case you need dynamic population, if not, the prepopulated html is commented out in the select element)
-            var sifraNamjeneDropdown = jQuery("#sifraNamjene");
-            sifraNamjeneDropdown.append($("<option />").val("").text("-").attr('selected', 'selected'));
-            $.each(BarcodePayment.IntentCodes, function () {
-                sifraNamjeneDropdown.append($("<option />").val(this.code).text(this.title));
-            });
-
-            // Populate payment models (sample code in case you need dynamic population, if not, the prepopulated html is commented out in the select element)
-            var modelPlacanjaDropdown = jQuery("#modelPlacanja");
-            modelPlacanjaDropdown.append($("<option />").val("").text("").attr('selected', 'selected'));
-            $.each(BarcodePayment.PaymentModels, function () {
-                modelPlacanjaDropdown.append($("<option />").val(this.model).text(this.model));
-            });
-
             // TODO: Add sample code for dynamic setting of maxlength properties on elements
 
             GenerirajBarkod();
