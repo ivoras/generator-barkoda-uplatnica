@@ -15,7 +15,7 @@
 	<script type="text/javascript">
 
 		iframe_base = "https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html";
-		iframe_url = iframe_base + "?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije";
+		iframe_url = iframe_base + "?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije&aspect=2";
 
 		jQuery(document).ready(function () {
 			// Initialize the library
@@ -95,8 +95,9 @@
 		function GenerirajBarkod() {
 			var generateBarcode = true;
 			var paymentParams = GetPaymentParams();
+			var aspect = getValueByElementId('aspect');
 
-			iframe_url = iframe_base + "?iznos=" + paymentParams.Iznos + "&IBAN=" + paymentParams.IBAN + "&modelPlacanja=" + paymentParams.ModelPlacanja + "&pozivNaBroj=" + paymentParams.PozivNaBroj + "&opisPlacanja=" + paymentParams.OpisPlacanja;
+			iframe_url = iframe_base + "?iznos=" + paymentParams.Iznos + "&IBAN=" + paymentParams.IBAN + "&modelPlacanja=" + paymentParams.ModelPlacanja + "&pozivNaBroj=" + paymentParams.PozivNaBroj + "&opisPlacanja=" + paymentParams.OpisPlacanja + "&aspect=" + aspect;
 			updateIFRAMEurl();
 
 			var textToEncode = BarcodePayment.GetEncodedText(paymentParams);
@@ -110,8 +111,9 @@
 				generateBarcode = false;
 			}
 
+
 			// Barcode generation sample copied from library sample
-			PDF417.init(textToEncode);
+			PDF417.init(textToEncode, -1, aspect);
 			var barcode = PDF417.getBarcodeArray();
 			// block sizes (width and height) in pixels
 			var bw = 2;
@@ -392,6 +394,10 @@
 				<option value="RLWY">Željeznički</option>
 				<option value="LIFI">Životno osiguranje</option>
 			</select><br>
+
+			<br><label for="aspect">Odnos duljine i visine (aspect ratio): </label>
+			<input type="text" name="aspect" id="aspect" pattern="^[0-9]+$" placeholder="2" maxlength="3" size="3" value="2"><br>
+
 
 			<br><a href="javascript:;" onclick="jQuery('dodatnaPolja').toggle();">Prikaži/Sakrij dodatna polja</a>
 			<hr>
