@@ -42,6 +42,13 @@
                 return "";
             }
 
+            if (p.has('currency')) {
+                curr = p.get('currency');
+                if (curr !== null) {
+                    paymentParams.Currency = curr
+                }
+            }
+
             paymentParams.Iznos = q('iznos');
             paymentParams.ImePlatitelja = q('imePlatitelja');
             paymentParams.AdresaPlatitelja = q('adresaPlatitelja');
