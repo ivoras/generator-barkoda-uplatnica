@@ -99,7 +99,7 @@
 
 			iframe_url = iframe_base + "?iznos=" + paymentParams.Iznos + "&IBAN=" + paymentParams.IBAN + "&modelPlacanja=" + paymentParams.ModelPlacanja + "&pozivNaBroj=" + paymentParams.PozivNaBroj + "&opisPlacanja=" + paymentParams.OpisPlacanja + "&aspect=" + aspect;
 			updateIFRAMEurl();
-
+/*
 			var textToEncode = BarcodePayment.GetEncodedText(paymentParams);
 
 			if (textToEncode == BarcodePayment.ResultCode.InvalidContent) {
@@ -145,9 +145,10 @@
 					y += bh;
 				}
 			}
+      */
 		}
 
-	</script>
+</script>
 
 </head>
 
@@ -399,7 +400,7 @@
 			<input type="text" name="aspect" id="aspect" pattern="^[0-9]+$" placeholder="2" maxlength="3" size="3" value="2"><br>
 
 
-			<br><a href="javascript:;" onclick="jQuery('dodatnaPolja').toggle();">Prikaži/Sakrij dodatna polja</a>
+			<br><a href="javascript:;" onclick="jQuery('#dodatnaPolja').toggle();">Prikaži/Sakrij dodatna polja</a>
 			<hr>
 			<div id="dodatnaPolja" style="display: none;">
 
