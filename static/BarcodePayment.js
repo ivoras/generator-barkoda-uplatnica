@@ -1,6 +1,7 @@
 /**
  * BarcodeGenerator - 2D Barcode generator for Croatian payment(LGPLv3)
- * version: 0.502
+ * version: 0.503
+ * - added EUR support and more currency flexibility (kost)
  */
 BarcodePayment = new function() {
 	var _me = this;
@@ -104,6 +105,16 @@ BarcodePayment = new function() {
 	
 		if (!StringNotDefinedOrEmpty(paymentParams.Iznos) && (fieldLength == -1 || paymentParams.Iznos.match(_pricePattern) == null)) {
 			result |= BarcodePayment.ValidationResult.PricePatternInvalid;
+		}
+
+		// Currency
+		fieldLength = _me.GetLength(paymentParams.Currency);
+		if (fieldLength > BarcodePayment.MaxLengths.Currency) {
+			result |= BarcodePayment.ValidationResult.CurrencyMaxLengthExceeded;
+		}
+
+		if (!StringNotDefinedOrEmpty(paymentParams.Currency) && fieldLength == -1) {
+			result |= BarcodePayment.ValidationResult.CurrencyInvalid;
 		}
 		
 		// Payer name
@@ -246,7 +257,7 @@ BarcodePayment = new function() {
 
 		return ConcatenateStrings(
 			_header, _delimiter,
-			_currency, _delimiter,
+			paymentParams.Currency, _delimiter,
 			EncodePrice(paymentParams.Iznos), _delimiter,
 			paymentParams.ImePlatitelja, _delimiter,
 			paymentParams.AdresaPlatitelja, _delimiter,
@@ -519,6 +530,7 @@ BarcodePayment = new function() {
 	
 	this.MaxLengths = {
 		Price: 16,
+		Currency: 3,
 		PayerName: 30,
 		PayerAddress: 27,
 		PayerHQ: 27,
@@ -575,10 +587,14 @@ BarcodePayment = new function() {
 		IntentCodeMaxLengthExceeded: 2097152,
 		
 		DescriptionInvalid: 4194304,
-		DescriptionMaxLengthExceeded: 8388608
+		DescriptionMaxLengthExceeded: 8388608,
+
+		CurrencyInvalid: 16777216,
+		CurrencyMaxLengthExceeded: 33554432
 	}
 	
 	this.PaymentParams = function () {
+		this.Currency = _currency;
 		this.Iznos = "";
 		this.ImePlatitelja = "";
 		this.AdresaPlatitelja = "";
