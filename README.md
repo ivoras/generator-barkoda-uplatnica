@@ -1,6 +1,6 @@
 # Generator barkoda za uplatnice
 
-Jednostavno generiranje 2D barkoda za uplatnice napravljeno u Javascriptu, uključujući IFRAME podršku.
+Jednostavno generiranje 2D barkoda za uplatnice prema stanardu HUB-a (https://www.hub.hr/hr/format-zapisa-pdf417-2d-bar-koda-prema-hub3-standardu) napravljeno u Javascriptu, uključujući IFRAME podršku za integraciju u razne web app.
 
 Vrlo jednostavno omogućite svojim klijentima printanje ili skeniranje 2D barkoda kako bi lakše napravili uplatu na vaš račun!
 
