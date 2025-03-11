@@ -308,19 +308,24 @@
 					<h2 class="h3 mb-4"><i class="bi bi-pencil-square"></i> Formular</h2>
 					<form>
 						<div class="mb-4">
-							<label for="iznos" class="form-label">Iznos (u formatu 123,45)</label>
+							<label for="iznos" class="form-label">Iznos (u formatu 123,45) <span class="text-danger">*</span></label>
 							<div class="input-group">
 								<span class="input-group-text"><i class="bi bi-currency-euro"></i></span>
-								<input type="text" class="form-control" id="iznos" pattern="^[0-9]+,[0-9]{2}$" placeholder="0,00" maxlength="16">
+								<input type="text" class="form-control" id="iznos" pattern="^[0-9]+,[0-9]{2}$" placeholder="0,00" maxlength="16" required>
 							</div>
 						</div>
 
 						<div class="mb-4">
-							<label for="brRacuna" class="form-label">Račun primatelja (IBAN)</label>
+							<label for="brRacuna" class="form-label">Račun primatelja (IBAN) <span class="text-danger">*</span></label>
 							<div class="input-group">
 								<span class="input-group-text"><i class="bi bi-bank"></i></span>
-								<input type="text" class="form-control" id="brRacuna" maxlength="21" placeholder="HR...">
+								<input type="text" class="form-control" id="brRacuna" maxlength="21" placeholder="HR..." required>
 							</div>
+						</div>
+
+						<div class="mb-4">
+							<label for="primatelj" class="form-label">Primatelj <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" id="primatelj" placeholder="FIRMA D.O.O." maxlength="25" required>
 						</div>
 
 						<div class="row">
@@ -587,10 +592,6 @@
 
 							<h3 class="h5 mb-3">Podaci o primatelju</h3>
 							<div class="mb-3">
-								<label for="primatelj" class="form-label">Primatelj</label>
-								<input type="text" class="form-control" id="primatelj" placeholder="FIRMA D.O.O." maxlength="25">
-							</div>
-							<div class="mb-3">
 								<label for="adresaPrimatelja" class="form-label">Adresa primatelja</label>
 								<input type="text" class="form-control" id="adresaPrimatelja" placeholder="UL. GRADA VUKOVARA 27" maxlength="25">
 							</div>
@@ -598,6 +599,10 @@
 								<label for="postanskiBrojIMjestoPrimatelja" class="form-label">Poštanski broj i mjesto primatelja</label>
 								<input type="text" class="form-control" id="postanskiBrojIMjestoPrimatelja" placeholder="10000 ZAGREB" maxlength="27">
 							</div>
+						</div>
+
+						<div class="text-muted mb-4">
+							<small><span class="text-danger">*</span> Obavezna polja</small>
 						</div>
 
 						<button type="button" class="btn btn-generate w-100" onclick="GenerirajBarkod(); return false;">
@@ -637,7 +642,7 @@ title="Barkod" width="450" height="200" style="display: block; margin-left: auto
 
 	<footer class="bg-dark text-white py-4 mt-5">
 		<div class="container text-center">
-			<p class="mb-0">© 2024 Generator Barkoda. Sva prava pridržana.</p>
+			<p class="mb-0">© 2024 Ivan Voras. Sva prava pridržana.</p>
 		</div>
 	</footer>
 
