@@ -4,6 +4,7 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>Generator barkoda uplatnica PLUS</title>
 	<script src="./static/jquery-latest.min.js"></script>
@@ -11,6 +12,85 @@
 	<script src="./static/pdf417-min.js"></script>
 	<script src="./static/BarcodePayment.js"></script>
 	<link rel="stylesheet" href="./static/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+	<style>
+		body {
+			background-color: #f8f9fa;
+			color: #212529;
+		}
+		.navbar-brand {
+			font-weight: 600;
+			color: #0d6efd;
+		}
+		.hero-section {
+			background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+			color: white;
+			padding: 3rem 0;
+			margin-bottom: 2rem;
+		}
+		.form-card {
+			background: white;
+			border-radius: 1rem;
+			box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+			padding: 2rem;
+			margin-bottom: 2rem;
+		}
+		.barcode-container {
+			background: white;
+			border-radius: 1rem;
+			box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+			padding: 2rem;
+			margin: 2rem 0;
+		}
+		.form-label {
+			font-weight: 500;
+			margin-bottom: 0.5rem;
+		}
+		.form-control, .form-select {
+			border-radius: 0.5rem;
+			padding: 0.75rem 1rem;
+		}
+		.btn-generate {
+			background: #0d6efd;
+			color: white;
+			padding: 0.75rem 2rem;
+			border-radius: 0.5rem;
+			font-weight: 600;
+			transition: all 0.3s ease;
+		}
+		.btn-generate:hover {
+			background: #0a58ca;
+			transform: translateY(-2px);
+		}
+		.credits {
+			background: white;
+			border-radius: 1rem;
+			padding: 1.5rem;
+			margin-top: 2rem;
+		}
+		#iframe {
+			border: none;
+			border-radius: 0.5rem;
+			box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+		}
+		.toggle-fields {
+			color: #0d6efd;
+			text-decoration: none;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+		.toggle-fields:hover {
+			color: #0a58ca;
+		}
+		pre {
+			background: #f8f9fa;
+			padding: 1rem;
+			border-radius: 0.5rem;
+			border: 1px solid #dee2e6;
+		}
+	</style>
 
 	<script type="text/javascript">
 
@@ -166,305 +246,360 @@
 </head>
 
 <body>
-	<div class="container">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+		<div class="container">
+			<a class="navbar-brand" href="#"><i class="bi bi-upc-scan"></i> Generator Barkoda</a>
+		</div>
+	</nav>
 
-		<h1>Generator barkoda za uplatnice</h1>
-		<p>
-			Ovo je web servis koji generira IFRAME koji prikazuje 2D barkod za plaćanje (prema <a href="https://www.hub.hr/hr/format-zapisa-pdf417-2d-bar-koda-prema-hub3-standardu">standardu HUB-a</a>)
-			koji se može skenirati u m-banking aplikacijama i sl.</p>
-			Ovaj barkod se može skenirati u bilo kojoj mobilnoj aplikaciji za bankarstvo da bi se olakšalo plaćanje. Prisutne su dvije opcije: prva je
-			da popunite formular u nastavku i on će vam generirati barkod kojeg možete spremiti i koristiti gdje god želite kao sliku. Druga opcija je
-			da, ako radite web shop ili sličnu uslugu, koristite generirani bar-kod unutar svog weba, tako da u URL od IFRAME-a upišete podatke za
-			uplatnicu.
-		</p>
-
-		<h2>Formular</h2>
-		Podaci za plaćanje:
-		<fieldset>
-			<label for="iznos">Iznos (u formatu 123,45):</label><br>
-			<input type="text" id="iznos" pattern="^[0-9]+,[0-9]{2}$" placeholder="0,00" maxlength="16" size="16"><br>
-
-			<label for="brRacuna">Račun primatelja (IBAN, u formatu HR....):</label><br>
-			<input type="text" id="brRacuna" maxlength="21" size="30"><br>
-
-			<label for="modelPlacanja">Model plaćanja:</label><br>
-			<select id="modelPlacanja">
-				<option value="00" selected="selected">00</option>
-				<option value="01">01</option>
-				<option value="02">02</option>
-				<option value="03">03</option>
-				<option value="04">04</option>
-				<option value="05">05</option>
-				<option value="06">06</option>
-				<option value="07">07</option>
-				<option value="08">08</option>
-				<option value="09">09</option>
-				<option value="10">10</option>
-				<option value="11">11</option>
-				<option value="12">12</option>
-				<option value="13">13</option>
-				<option value="14">14</option>
-				<option value="15">15</option>
-				<option value="16">16</option>
-				<option value="17">17</option>
-				<option value="18">18</option>
-				<option value="23">23</option>
-				<option value="24">24</option>
-				<option value="26">26</option>
-				<option value="27">27</option>
-				<option value="28">28</option>
-				<option value="29">29</option>
-				<option value="30">30</option>
-				<option value="31">31</option>
-				<option value="33">33</option>
-				<option value="34">34</option>
-				<option value="40">40</option>
-				<option value="41">41</option>
-				<option value="42">42</option>
-				<option value="43">43</option>
-				<option value="55">55</option>
-				<option value="62">62</option>
-				<option value="63">63</option>
-				<option value="64">64</option>
-				<option value="65">65</option>
-				<option value="67">67</option>
-				<option value="68">68</option>
-				<option value="69">69</option>
-				<option value="99">99</option>
-				<option value="25">25</option>
-				<option value="83">83</option>
-				<option value="84">84</option>
-				<option value="50">50</option>
-			</select><br>
-
-			<label for="pozivNaBroj">Poziv na broj:</label><br>
-			<input type="text" id="pozivNaBroj" maxlength="22" value="00"><br>
-
-			<label for="opisPlacanja">Opis plaćanja:</label><br>
-			<input type="text" id="opisPlacanja" maxlength="35" size="35" value="Donacija"><br>
-
-			<label for="sifraNamjene">Šifra namjene:</label><br>
-			<select id="sifraNamjene">
-				<option value="ADMG">Administracija</option>
-				<option value="GVEA">Austrijski državni zaposlenici, Kategorija A</option>
-				<option value="GVEB">Austrijski državni zaposlenici, Kategorija B</option>
-				<option value="GVEC">Austrijski državni zaposlenici, Kategorija C</option>
-				<option value="GVED">Austrijski državni zaposlenici, Kategorija D</option>
-				<option value="BUSB">Autobusni</option>
-				<option value="CPYR">Autorsko pravo</option>
-				<option value="HSPC">Bolnička njega</option>
-				<option value="RDTX">Cestarina</option>
-				<option value="DEPT">Depozit</option>
-				<option value="DERI">Derivati (izvedenice)</option>
-				<option value="FREX">Devizno tržište</option>
-				<option value="CGDD">Direktno terećenje nastalo kao rezultat kartične transakcije</option>
-				<option value="DIVD">Dividenda</option>
-				<option value="BECH">Dječji doplatak</option>
-				<option value="CHAR">Dobrotvorno plaćanje</option>
-				<option value="ETUP">Doplata e-novca</option>
-				<option value="MTUP">Doplata mobilnog uređaja (bon)</option>
-				<option value="GOVI">Državno osiguranje</option>
-				<option value="ENRG">Energenti</option>
-				<option value="CDCD">Gotovinska isplata</option>
-				<option value="CSDB">Gotovinska isplata</option>
-				<option value="TCSC">Gradske naknade</option>
-				<option value="CDCS">Isplata gotovine s naknadom</option>
-				<option value="FAND">Isplata naknade za elementarne nepogode</option>
-				<option value="CSLP">Isplata socijalnih zajmova društava banci</option>
-				<option value="RHBS">Isplata za vrijeme profesionalne rehabilitacije</option>
-				<option value="GWLT">Isplata žrtvama rata i invalidima</option>
-				<option value="ADCS">Isplate za donacije, sponzorstva, savjetodavne, intelektualne i druge usluge</option>
-				<option value="PADD">Izravno terećenje</option>
-				<option value="INTE">Kamata</option>
-				<option value="CDDP">Kartično plaćanje s odgodom</option>
-				<option value="CDCB">Kartično plaćanje uz gotovinski povrat (Cashback)</option>
-				<option value="BOCE">Knjiženje konverzije u Back Office-u</option>
-				<option value="POPE">Knjiženje mjesta kupnje</option>
-				<option value="RCKE">Knjiženje ponovne prezentacije čeka</option>
-				<option value="AREN">Knjiženje računa potraživanja</option>
-				<option value="COMC">Komercijalno plaćanje</option>
-				<option value="UBIL">Komunalne usluge</option>
-				<option value="COMT">Konsolidirano plaćanje treće strane za račun potrošača.</option>
-				<option value="SEPI">Kupnja vrijednosnica (interna)</option>
-				<option value="GDDS">Kupovina-prodaja roba</option>
-				<option value="GSCB">Kupovina-prodaja roba i usluga uz gotovinski povrat</option>
-				<option value="GDSV">Kupovina/prodaja roba i usluga</option>
-				<option value="SCVE">Kupovina/prodaja usluga</option>
-				<option value="HLTC">Kućna njega bolesnika</option>
-				<option value="CBLK">Masovni kliring kartica</option>
-				<option value="MDCS">Medicinske usluge</option>
-				<option value="NWCM">Mrežna komunikacija</option>
-				<option value="RENT">Najam</option>
-				<option value="ALLW">Naknada</option>
-				<option value="SSBE">Naknada socijalnog osiguranja</option>
-				<option value="LICF">Naknada za licencu</option>
-				<option value="GFRP">Naknada za nezaposlene u toku stečaja</option>
-				<option value="BENE">Naknada za nezaposlenost/invaliditet</option>
-				<option value="CFEE">Naknada za poništenje</option>
-				<option value="AEMP">Naknada za zapošljavanje</option>
-				<option value="COLL">Naplata</option>
-				<option value="FCOL">Naplata naknade po kartičnoj transakciji</option>
-				<option value="DBTC">Naplata putem terećenja</option>
-				<option value="NOWS">Nenavedeno</option>
-				<option value="IDCP">Neopozivo plaćanje sa računa debitne kartice</option>
-				<option value="ICCP">Neopozivo plaćanje sa računa kreditne kartice</option>
-				<option value="BONU">Novčana nagrada (bonus).</option>
-				<option value="PAYR">Obračun plaća</option>
-				<option value="BLDM">Održavanje zgrada</option>
-				<option value="HEDG">Omeđivanje rizika (Hedging)</option>
-				<option value="CDOC">Originalno odobrenje</option>
-				<option value="PPTI">Osiguranje imovine</option>
-				<option value="LBRI">Osiguranje iz rada</option>
-				<option value="OTHR">Ostalo</option>
-				<option value="CLPR">Otplata glavnice kredita za automobil</option>
-				<option value="HLRP">Otplata stambenog kredita</option>
-				<option value="LOAR">Otplata zajma</option>
-				<option value="ALMY">Plaćanje alimentacije</option>
-				<option value="RCPT">Plaćanje blagajničke potvrde. (ReceiptPayment)</option>
-				<option value="PRCP">Plaćanje cijene</option>
-				<option value="SUPP">Plaćanje dobavljača</option>
-				<option value="CFDI">Plaćanje dospjele glavnice</option>
-				<option value="GOVT">Plaćanje države</option>
-				<option value="PENS">Plaćanje mirovine</option>
-				<option value="DCRD">Plaćanje na račun debitne kartice.</option>
-				<option value="CCRD">Plaćanje na račun kreditne kartice</option>
-				<option value="SALA">Plaćanje plaće</option>
-				<option value="REBT">Plaćanje popusta/rabata</option>
-				<option value="TAXS">Plaćanje poreza</option>
-				<option value="VATX">Plaćanje poreza na dodatnu vrijednost</option>
-				<option value="RINP">Plaćanje rata koje se ponavljaju</option>
-				<option value="IHRP">Plaćanje rate pri kupnji na otplatu</option>
-				<option value="IVPT">Plaćanje računa</option>
-				<option value="CDBL">Plaćanje računa za kreditnu karticu</option>
-				<option value="TREA">Plaćanje riznice</option>
-				<option value="CMDT">Plaćanje roba</option>
-				<option value="INTC">Plaćanje unutar društva</option>
-				<option value="INVS">Plaćanje za fondove i vrijednosnice</option>
-				<option value="PRME">Plemeniti metali</option>
-				<option value="AGRT">Poljoprivredni transfer</option>
-				<option value="INTX">Porez na dohodak</option>
-				<option value="PTXP">Porez na imovinu</option>
-				<option value="NITX">Porez na neto dohodak</option>
-				<option value="ESTX">Porez na ostavštinu</option>
-				<option value="GSTX">Porez na robu i usluge</option>
-				<option value="HSTX">Porez na stambeni prostor</option>
-				<option value="FWLV">Porez na strane radnike</option>
-				<option value="WHLD">Porez po odbitku</option>
-				<option value="BEXP">Poslovni troškovi</option>
-				<option value="REFU">Povrat</option>
-				<option value="TAXR">Povrat poreza</option>
-				<option value="RIMB">Povrat prethodne pogrešne transakcije</option>
-				<option value="OFEE">Početna naknada (Opening Fee)</option>
-				<option value="ADVA">Predujam</option>
-				<option value="INSU">Premija osiguranja</option>
-				<option value="INPC">Premija osiguranja za vozilo</option>
-				<option value="TRPT">Prepaid cestarina (ENC)</option>
-				<option value="SUBS">Pretplata</option>
-				<option value="CASH">Prijenos gotovine</option>
-				<option value="PENO">Prisilna naplata</option>
-				<option value="COMM">Provizija</option>
-				<option value="INSM">Rata</option>
-				<option value="ELEC">Račun za električnu energiju</option>
-				<option value="CBTV">Račun za kabelsku TV</option>
-				<option value="OTLC">Račun za ostale telekom usluge</option>
-				<option value="GASB">Račun za plin</option>
-				<option value="WTER">Račun za vodu</option>
-				<option value="ANNI">Renta</option>
-				<option value="BBSC">Rodiljna naknada</option>
-				<option value="NETT">Saldiranje (netiranje)</option>
-				<option value="CAFI">Skrbničke naknade (interne)</option>
-				<option value="STDY">Studiranje</option>
-				<option value="ROYA">Tantijeme</option>
-				<option value="PHON">Telefonski račun</option>
-				<option value="FERB">Trajektni</option>
-				<option value="DMEQ">Trajna medicinska pomagala</option>
-				<option value="WEBI">Transakcija inicirana internetom</option>
-				<option value="TELI">Transakcija inicirana telefonom</option>
-				<option value="HREC">Transakcija se odnosi na doprinos poslodavca za troškove stanovanja</option>
-				<option value="CBFR">Transakcija se odnosi na kapitalnu štednju za mirovinu</option>
-				<option value="CBFF">Transakcija se odnosi na kapitalnu štednju, općenito</option>
-				<option value="TRAD">Trgovinske usluge</option>
-				<option value="COST" selected="selected">Troškovi</option>
-				<option value="CPKC">Troškovi parkiranja</option>
-				<option value="TBIL">Troškovi telekomunikacija</option>
-				<option value="NWCH">Troškovi za mrežu</option>
-				<option value="EDUC">Troškovi školovanja</option>
-				<option value="LIMA">Upravljanje likvidnošću</option>
-				<option value="ACCT">Upravljanje računom</option>
-				<option value="ANTS">Usluge anestezije</option>
-				<option value="VIEW">Usluge oftalmološke skrbi</option>
-				<option value="LTCF">Ustanova dugoročne zdravstvene skrbi</option>
-				<option value="ICRF">Ustanova socijalne skrbi</option>
-				<option value="CVCF">Ustanova za usluge skrbi za rekonvalescente</option>
-				<option value="PTSP">Uvjeti plaćanja</option>
-				<option value="MSVC">Višestruke vrste usluga</option>
-				<option value="SECU">Vrijednosni papiri</option>
-				<option value="LOAN">Zajam</option>
-				<option value="FCPM">Zakašnjele naknade</option>
-				<option value="TRFD">Zaklada</option>
-				<option value="CDQC">Zamjenska gotovina</option>
-				<option value="HLTI">Zdravstveno osiguranje</option>
-				<option value="AIRB">Zračni</option>
-				<option value="DNTS">Zubarske usluge</option>
-				<option value="SAVG">Štednja</option>
-				<option value="RLWY">Željeznički</option>
-				<option value="LIFI">Životno osiguranje</option>
-			</select><br>
-
-			<br><label for="aspect">Odnos duljine i visine (aspect ratio): </label>
-			<input type="text" name="aspect" id="aspect" pattern="^[0-9]+$" placeholder="2" maxlength="3" size="3" value="2"><br>
-
-
-			<br><a href="javascript:;" onclick="jQuery('#dodatnaPolja').toggle();">Prikaži/Sakrij dodatna polja</a>
-			<hr>
-			<div id="dodatnaPolja" style="display: none;">
-
-				<label for="imePlatitelja">Ime i prezime platitelja:</label><br>
-				<input type="text" id="imePlatitelja" placeholder="IVAN HORVAT" maxlength="30"><br>
-
-				<label for="adresaPlatitelja">Adresa platitelja:</label><br>
-				<input type="text" id="adresaPlatitelja" placeholder="ILICA 1" maxlength="27"><br>
-
-				<label for="postanskiBrojIMjestoPlatitelja">Poštanski broj i mjesto platitelja:</label><br>
-				<input type="text" id="postanskiBrojIMjestoPlatitelja" placeholder="10000 ZAGREB" maxlength="27"><br>
-
-				<label for="primatelj">Primatelj:</label><br>
-				<input type="text" id="primatelj" placeholder="FIRMA D.O.O." maxlength="25"><br>
-
-				<label for="adresaPrimatelja">Adresa primatelja:</label><br>
-				<input type="text" id="adresaPrimatelja" placeholder="UL. GRADA VUKOVARA 27" maxlength="25"><br>
-
-				<label for="postanskiBrojIMjestoPrimatelja">Poštanski broj i mjesto primatelja:</label><br>
-				<input type="text" id="postanskiBrojIMjestoPrimatelja" placeholder="10000 ZAGREB" maxlength="27"><br>
-
-			</div>
-			<hr>
-
-			<input type="button" onclick="GenerirajBarkod(); return false;" value="Generiraj barkod">
-
-			<div id="barcode"></div>
-
-		</fieldset>
-
-		<br><br>
-		<h2>IFRAME kod</h2>
-		<p>Da bi koristili ovakav bar kod u web shopu, trebate na odgovarajuće mjesto upisati sljedeći HTML kod:</p>
-		<pre>
-&lt;iframe src="<span id="iframe_code_url">https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije</span>"
-title="Barkod" width="450" height="200" style="display: block; margin-left: auto; margin-right: auto"&gt;&lt;/iframe&gt;
-		</pre>
-		<p>Naravno, u odgovarajuća polja trebate upisati svoje podatke, one koje želite da se nađu na uplatnici
-			u mobile banking aplikaciji. Rezultat ovakvog koda će biti:
-		</p>
-
-		<iframe id="iframe" src="https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije" title="Barkod" width="450" height="200" style="display: block; margin-left: auto; margin-right: auto"></iframe>
-
-		<p>Testirano je s WordPressom, gdje je potrebno odabrati "HTML" blok i unutra upisati gornji kod.</p>
-
-		<h2>Credits</h2>
-		<p>Originalni kod je sa <a href="https://bikonja.github.io/generator-barkoda-uplatnica/">https://bikonja.github.io/generator-barkoda-uplatnica/</a></p>
-
+	<div class="hero-section">
+		<div class="container">
+			<h1 class="display-4 mb-3">Generator barkoda za uplatnice</h1>
+			<p class="lead mb-0">
+				Generirajte 2D barkod za plaćanje prema HUB standardu koji možete skenirati u m-banking aplikacijama.
+			</p>
+		</div>
 	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="form-card">
+					<h2 class="h3 mb-4"><i class="bi bi-pencil-square"></i> Formular</h2>
+					<form>
+						<div class="mb-4">
+							<label for="iznos" class="form-label">Iznos (u formatu 123,45)</label>
+							<div class="input-group">
+								<span class="input-group-text"><i class="bi bi-currency-euro"></i></span>
+								<input type="text" class="form-control" id="iznos" pattern="^[0-9]+,[0-9]{2}$" placeholder="0,00" maxlength="16">
+							</div>
+						</div>
+
+						<div class="mb-4">
+							<label for="brRacuna" class="form-label">Račun primatelja (IBAN)</label>
+							<div class="input-group">
+								<span class="input-group-text"><i class="bi bi-bank"></i></span>
+								<input type="text" class="form-control" id="brRacuna" maxlength="21" placeholder="HR...">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-4">
+								<label for="modelPlacanja" class="form-label">Model plaćanja</label>
+								<select class="form-select" id="modelPlacanja">
+									<option value="00" selected="selected">00</option>
+									<option value="01">01</option>
+									<option value="02">02</option>
+									<option value="03">03</option>
+									<option value="04">04</option>
+									<option value="05">05</option>
+									<option value="06">06</option>
+									<option value="07">07</option>
+									<option value="08">08</option>
+									<option value="09">09</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="23">23</option>
+									<option value="24">24</option>
+									<option value="26">26</option>
+									<option value="27">27</option>
+									<option value="28">28</option>
+									<option value="29">29</option>
+									<option value="30">30</option>
+									<option value="31">31</option>
+									<option value="33">33</option>
+									<option value="34">34</option>
+									<option value="40">40</option>
+									<option value="41">41</option>
+									<option value="42">42</option>
+									<option value="43">43</option>
+									<option value="55">55</option>
+									<option value="62">62</option>
+									<option value="63">63</option>
+									<option value="64">64</option>
+									<option value="65">65</option>
+									<option value="67">67</option>
+									<option value="68">68</option>
+									<option value="69">69</option>
+									<option value="99">99</option>
+									<option value="25">25</option>
+									<option value="83">83</option>
+									<option value="84">84</option>
+									<option value="50">50</option>
+								</select>
+							</div>
+
+							<div class="col-md-6 mb-4">
+								<label for="pozivNaBroj" class="form-label">Poziv na broj</label>
+								<input type="text" class="form-control" id="pozivNaBroj" maxlength="22" value="00">
+							</div>
+						</div>
+
+						<div class="mb-4">
+							<label for="opisPlacanja" class="form-label">Opis plaćanja</label>
+							<input type="text" class="form-control" id="opisPlacanja" maxlength="35" value="Donacija">
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-4">
+								<label for="sifraNamjene" class="form-label">Šifra namjene</label>
+								<select class="form-select" id="sifraNamjene">
+									<option value="ADMG">Administracija</option>
+									<option value="GVEA">Austrijski državni zaposlenici, Kategorija A</option>
+									<option value="GVEB">Austrijski državni zaposlenici, Kategorija B</option>
+									<option value="GVEC">Austrijski državni zaposlenici, Kategorija C</option>
+									<option value="GVED">Austrijski državni zaposlenici, Kategorija D</option>
+									<option value="BUSB">Autobusni</option>
+									<option value="CPYR">Autorsko pravo</option>
+									<option value="HSPC">Bolnička njega</option>
+									<option value="RDTX">Cestarina</option>
+									<option value="DEPT">Depozit</option>
+									<option value="DERI">Derivati (izvedenice)</option>
+									<option value="FREX">Devizno tržište</option>
+									<option value="CGDD">Direktno terećenje nastalo kao rezultat kartične transakcije</option>
+									<option value="DIVD">Dividenda</option>
+									<option value="BECH">Dječji doplatak</option>
+									<option value="CHAR">Dobrotvorno plaćanje</option>
+									<option value="ETUP">Doplata e-novca</option>
+									<option value="MTUP">Doplata mobilnog uređaja (bon)</option>
+									<option value="GOVI">Državno osiguranje</option>
+									<option value="ENRG">Energenti</option>
+									<option value="CDCD">Gotovinska isplata</option>
+									<option value="CSDB">Gotovinska isplata</option>
+									<option value="TCSC">Gradske naknade</option>
+									<option value="CDCS">Isplata gotovine s naknadom</option>
+									<option value="FAND">Isplata naknade za elementarne nepogode</option>
+									<option value="CSLP">Isplata socijalnih zajmova društava banci</option>
+									<option value="RHBS">Isplata za vrijeme profesionalne rehabilitacije</option>
+									<option value="GWLT">Isplata žrtvama rata i invalidima</option>
+									<option value="ADCS">Isplate za donacije, sponzorstva, savjetodavne, intelektualne i druge usluge</option>
+									<option value="PADD">Izravno terećenje</option>
+									<option value="INTE">Kamata</option>
+									<option value="CDDP">Kartično plaćanje s odgodom</option>
+									<option value="CDCB">Kartično plaćanje uz gotovinski povrat (Cashback)</option>
+									<option value="BOCE">Knjiženje konverzije u Back Office-u</option>
+									<option value="POPE">Knjiženje mjesta kupnje</option>
+									<option value="RCKE">Knjiženje ponovne prezentacije čeka</option>
+									<option value="AREN">Knjiženje računa potraživanja</option>
+									<option value="COMC">Komercijalno plaćanje</option>
+									<option value="UBIL">Komunalne usluge</option>
+									<option value="COMT">Konsolidirano plaćanje treće strane za račun potrošača.</option>
+									<option value="SEPI">Kupnja vrijednosnica (interna)</option>
+									<option value="GDDS">Kupovina-prodaja roba</option>
+									<option value="GSCB">Kupovina-prodaja roba i usluga uz gotovinski povrat</option>
+									<option value="GDSV">Kupovina/prodaja roba i usluga</option>
+									<option value="SCVE">Kupovina/prodaja usluga</option>
+									<option value="HLTC">Kućna njega bolesnika</option>
+									<option value="CBLK">Masovni kliring kartica</option>
+									<option value="MDCS">Medicinske usluge</option>
+									<option value="NWCM">Mrežna komunikacija</option>
+									<option value="RENT">Najam</option>
+									<option value="ALLW">Naknada</option>
+									<option value="SSBE">Naknada socijalnog osiguranja</option>
+									<option value="LICF">Naknada za licencu</option>
+									<option value="GFRP">Naknada za nezaposlene u toku stečaja</option>
+									<option value="BENE">Naknada za nezaposlenost/invaliditet</option>
+									<option value="CFEE">Naknada za poništenje</option>
+									<option value="AEMP">Naknada za zapošljavanje</option>
+									<option value="COLL">Naplata</option>
+									<option value="FCOL">Naplata naknade po kartičnoj transakciji</option>
+									<option value="DBTC">Naplata putem terećenja</option>
+									<option value="NOWS">Nenavedeno</option>
+									<option value="IDCP">Neopozivo plaćanje sa računa debitne kartice</option>
+									<option value="ICCP">Neopozivo plaćanje sa računa kreditne kartice</option>
+									<option value="BONU">Novčana nagrada (bonus).</option>
+									<option value="PAYR">Obračun plaća</option>
+									<option value="BLDM">Održavanje zgrada</option>
+									<option value="HEDG">Omeđivanje rizika (Hedging)</option>
+									<option value="CDOC">Originalno odobrenje</option>
+									<option value="PPTI">Osiguranje imovine</option>
+									<option value="LBRI">Osiguranje iz rada</option>
+									<option value="OTHR">Ostalo</option>
+									<option value="CLPR">Otplata glavnice kredita za automobil</option>
+									<option value="HLRP">Otplata stambenog kredita</option>
+									<option value="LOAR">Otplata zajma</option>
+									<option value="ALMY">Plaćanje alimentacije</option>
+									<option value="RCPT">Plaćanje blagajničke potvrde. (ReceiptPayment)</option>
+									<option value="PRCP">Plaćanje cijene</option>
+									<option value="SUPP">Plaćanje dobavljača</option>
+									<option value="CFDI">Plaćanje dospjele glavnice</option>
+									<option value="GOVT">Plaćanje države</option>
+									<option value="PENS">Plaćanje mirovine</option>
+									<option value="DCRD">Plaćanje na račun debitne kartice.</option>
+									<option value="CCRD">Plaćanje na račun kreditne kartice</option>
+									<option value="SALA">Plaćanje plaće</option>
+									<option value="REBT">Plaćanje popusta/rabata</option>
+									<option value="TAXS">Plaćanje poreza</option>
+									<option value="VATX">Plaćanje poreza na dodatnu vrijednost</option>
+									<option value="RINP">Plaćanje rata koje se ponavljaju</option>
+									<option value="IHRP">Plaćanje rate pri kupnji na otplatu</option>
+									<option value="IVPT">Plaćanje računa</option>
+									<option value="CDBL">Plaćanje računa za kreditnu karticu</option>
+									<option value="TREA">Plaćanje riznice</option>
+									<option value="CMDT">Plaćanje roba</option>
+									<option value="INTC">Plaćanje unutar društva</option>
+									<option value="INVS">Plaćanje za fondove i vrijednosnice</option>
+									<option value="PRME">Plemeniti metali</option>
+									<option value="AGRT">Poljoprivredni transfer</option>
+									<option value="INTX">Porez na dohodak</option>
+									<option value="PTXP">Porez na imovinu</option>
+									<option value="NITX">Porez na neto dohodak</option>
+									<option value="ESTX">Porez na ostavštinu</option>
+									<option value="GSTX">Porez na robu i usluge</option>
+									<option value="HSTX">Porez na stambeni prostor</option>
+									<option value="FWLV">Porez na strane radnike</option>
+									<option value="WHLD">Porez po odbitku</option>
+									<option value="BEXP">Poslovni troškovi</option>
+									<option value="REFU">Povrat</option>
+									<option value="TAXR">Povrat poreza</option>
+									<option value="RIMB">Povrat prethodne pogrešne transakcije</option>
+									<option value="OFEE">Početna naknada (Opening Fee)</option>
+									<option value="ADVA">Predujam</option>
+									<option value="INSU">Premija osiguranja</option>
+									<option value="INPC">Premija osiguranja za vozilo</option>
+									<option value="TRPT">Prepaid cestarina (ENC)</option>
+									<option value="SUBS">Pretplata</option>
+									<option value="CASH">Prijenos gotovine</option>
+									<option value="PENO">Prisilna naplata</option>
+									<option value="COMM">Provizija</option>
+									<option value="INSM">Rata</option>
+									<option value="ELEC">Račun za električnu energiju</option>
+									<option value="CBTV">Račun za kabelsku TV</option>
+									<option value="OTLC">Račun za ostale telekom usluge</option>
+									<option value="GASB">Račun za plin</option>
+									<option value="WTER">Račun za vodu</option>
+									<option value="ANNI">Renta</option>
+									<option value="BBSC">Rodiljna naknada</option>
+									<option value="NETT">Saldiranje (netiranje)</option>
+									<option value="CAFI">Skrbničke naknade (interne)</option>
+									<option value="STDY">Studiranje</option>
+									<option value="ROYA">Tantijeme</option>
+									<option value="PHON">Telefonski račun</option>
+									<option value="FERB">Trajektni</option>
+									<option value="DMEQ">Trajna medicinska pomagala</option>
+									<option value="WEBI">Transakcija inicirana internetom</option>
+									<option value="TELI">Transakcija inicirana telefonom</option>
+									<option value="HREC">Transakcija se odnosi na doprinos poslodavca za troškove stanovanja</option>
+									<option value="CBFR">Transakcija se odnosi na kapitalnu štednju za mirovinu</option>
+									<option value="CBFF">Transakcija se odnosi na kapitalnu štednju, općenito</option>
+									<option value="TRAD">Trgovinske usluge</option>
+									<option value="COST" selected="selected">Troškovi</option>
+									<option value="CPKC">Troškovi parkiranja</option>
+									<option value="TBIL">Troškovi telekomunikacija</option>
+									<option value="NWCH">Troškovi za mrežu</option>
+									<option value="EDUC">Troškovi školovanja</option>
+									<option value="LIMA">Upravljanje likvidnošću</option>
+									<option value="ACCT">Upravljanje računom</option>
+									<option value="ANTS">Usluge anestezije</option>
+									<option value="VIEW">Usluge oftalmološke skrbi</option>
+									<option value="LTCF">Ustanova dugoročne zdravstvene skrbi</option>
+									<option value="ICRF">Ustanova socijalne skrbi</option>
+									<option value="CVCF">Ustanova za usluge skrbi za rekonvalescente</option>
+									<option value="PTSP">Uvjeti plaćanja</option>
+									<option value="MSVC">Višestruke vrste usluga</option>
+									<option value="SECU">Vrijednosni papiri</option>
+									<option value="LOAN">Zajam</option>
+									<option value="FCPM">Zakašnjele naknade</option>
+									<option value="TRFD">Zaklada</option>
+									<option value="CDQC">Zamjenska gotovina</option>
+									<option value="HLTI">Zdravstveno osiguranje</option>
+									<option value="AIRB">Zračni</option>
+									<option value="DNTS">Zubarske usluge</option>
+									<option value="SAVG">Štednja</option>
+									<option value="RLWY">Željeznički</option>
+									<option value="LIFI">Životno osiguranje</option>
+								</select>
+							</div>
+
+							<div class="col-md-6 mb-4">
+								<label for="aspect" class="form-label">Odnos duljine i visine</label>
+								<input type="text" class="form-control" id="aspect" pattern="^[0-9]+$" placeholder="2" maxlength="3" value="2">
+							</div>
+						</div>
+
+						<div class="mb-4">
+							<a href="javascript:;" class="toggle-fields" onclick="jQuery('#dodatnaPolja').toggle()">
+								<i class="bi bi-chevron-down"></i> Dodatna polja
+							</a>
+						</div>
+
+						<div id="dodatnaPolja" class="border rounded-3 p-4 mb-4" style="display: none;">
+							<h3 class="h5 mb-3">Podaci o platitelju</h3>
+							<div class="mb-3">
+								<label for="imePlatitelja" class="form-label">Ime i prezime platitelja</label>
+								<input type="text" class="form-control" id="imePlatitelja" placeholder="IVAN HORVAT" maxlength="30">
+							</div>
+							<div class="mb-3">
+								<label for="adresaPlatitelja" class="form-label">Adresa platitelja</label>
+								<input type="text" class="form-control" id="adresaPlatitelja" placeholder="ILICA 1" maxlength="27">
+							</div>
+							<div class="mb-4">
+								<label for="postanskiBrojIMjestoPlatitelja" class="form-label">Poštanski broj i mjesto platitelja</label>
+								<input type="text" class="form-control" id="postanskiBrojIMjestoPlatitelja" placeholder="10000 ZAGREB" maxlength="27">
+							</div>
+
+							<h3 class="h5 mb-3">Podaci o primatelju</h3>
+							<div class="mb-3">
+								<label for="primatelj" class="form-label">Primatelj</label>
+								<input type="text" class="form-control" id="primatelj" placeholder="FIRMA D.O.O." maxlength="25">
+							</div>
+							<div class="mb-3">
+								<label for="adresaPrimatelja" class="form-label">Adresa primatelja</label>
+								<input type="text" class="form-control" id="adresaPrimatelja" placeholder="UL. GRADA VUKOVARA 27" maxlength="25">
+							</div>
+							<div class="mb-3">
+								<label for="postanskiBrojIMjestoPrimatelja" class="form-label">Poštanski broj i mjesto primatelja</label>
+								<input type="text" class="form-control" id="postanskiBrojIMjestoPrimatelja" placeholder="10000 ZAGREB" maxlength="27">
+							</div>
+						</div>
+
+						<button type="button" class="btn btn-generate w-100" onclick="GenerirajBarkod(); return false;">
+							<i class="bi bi-qr-code"></i> Generiraj barkod
+						</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="barcode-container text-center">
+					<h3 class="h4 mb-4">Generirani barkod</h3>
+					<div id="barcode"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-card">
+			<h2 class="h3 mb-4"><i class="bi bi-code-slash"></i> IFRAME kod</h2>
+			<p class="mb-4">Da bi koristili ovakav bar kod u web shopu, trebate na odgovarajuće mjesto upisati sljedeći HTML kod:</p>
+			<pre class="mb-4"><code>&lt;iframe src="<span id="iframe_code_url">https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije</span>"
+title="Barkod" width="450" height="200" style="display: block; margin-left: auto; margin-right: auto"&gt;&lt;/iframe&gt;</code></pre>
+
+			<p class="mb-4">Rezultat ovakvog koda će biti:</p>
+			<iframe id="iframe" src="https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije" title="Barkod" width="450" height="200" style="display: block; margin-left: auto; margin-right: auto"></iframe>
+
+			<div class="alert alert-info mt-4" role="alert">
+				<i class="bi bi-info-circle"></i> Testirano je s WordPressom, gdje je potrebno odabrati "HTML" blok i unutra upisati gornji kod.
+			</div>
+		</div>
+
+		<div class="credits text-center">
+			<h2 class="h5 mb-3">Credits</h2>
+			<p class="mb-0">Originalni kod je sa <a href="https://bikonja.github.io/generator-barkoda-uplatnica/" class="text-decoration-none">https://bikonja.github.io/generator-barkoda-uplatnica/</a></p>
+		</div>
+	</div>
+
+	<footer class="bg-dark text-white py-4 mt-5">
+		<div class="container text-center">
+			<p class="mb-0">© 2024 Generator Barkoda. Sva prava pridržana.</p>
+		</div>
+	</footer>
 
 </body>
 
