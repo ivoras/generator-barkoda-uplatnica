@@ -177,22 +177,64 @@
 			var paymentParams = GetPaymentParams();
 			var aspect = getValueByElementId('aspect');
 
-			iframe_url = iframe_base +
-				"?iznos=" + encodeURIComponent(paymentParams.Iznos) +
-				"&imePlatitelja=" + encodeURIComponent(paymentParams.ImePlatitelja) +
-				"&adresaPlatitelja=" + encodeURIComponent(paymentParams.AdresaPlatitelja) +
-				"&sjedistePlatitelja=" + encodeURIComponent(paymentParams.SjedistePlatitelja) +
-				"&primatelj=" + encodeURIComponent(paymentParams.Primatelj) +
-				"&adresaPrimatelja=" + encodeURIComponent(paymentParams.AdresaPrimatelja) +
-				"&sjedistePrimatelja=" + encodeURIComponent(paymentParams.SjedistePrimatelja) +
-				"&IBAN=" + encodeURIComponent(paymentParams.IBAN) +
-				"&modelPlacanja=" + encodeURIComponent(paymentParams.ModelPlacanja) +
-				"&pozivNaBroj=" + encodeURIComponent(paymentParams.PozivNaBroj) +
-				"&sifraNamjene=" + encodeURIComponent(paymentParams.SifraNamjene) +
-				"&opisPlacanja=" + encodeURIComponent(paymentParams.OpisPlacanja) +
-				"&aspect=" + encodeURIComponent(aspect);
+			let params = new URLSearchParams();
+
+			if (!StringNotDefinedOrEmpty(paymentParams.Iznos)) {
+				params.append('iznos', paymentParams.Iznos);
+			} else {
+				alert('Iznos mora biti unesen');
+				generateBarcode = false;
+			}
+			if (!StringNotDefinedOrEmpty(paymentParams.ImePlatitelja)) {
+				params.append('imePlatitelja', paymentParams.ImePlatitelja);
+			}
+			if (!StringNotDefinedOrEmpty(paymentParams.AdresaPlatitelja)) {
+				params.append('adresaPlatitelja', paymentParams.AdresaPlatitelja);
+			}
+			if (!StringNotDefinedOrEmpty(paymentParams.SjedistePlatitelja)) {
+				params.append('sjedistePlatitelja', paymentParams.SjedistePlatitelja);
+			}
+			if (!StringNotDefinedOrEmpty(paymentParams.Primatelj)) {
+				params.append('primatelj', paymentParams.Primatelj);
+			} else {
+				alert('Primatelj mora biti unesen');
+				generateBarcode = false;
+			}
+			if (!StringNotDefinedOrEmpty(paymentParams.AdresaPrimatelja)) {
+				params.append('adresaPrimatelja', paymentParams.AdresaPrimatelja);
+			}
+			if (!StringNotDefinedOrEmpty(paymentParams.SjedistePrimatelja)) {
+				params.append('sjedistePrimatelja', paymentParams.SjedistePrimatelja);
+			}
+			if (!StringNotDefinedOrEmpty(paymentParams.IBAN)) {
+				params.append('IBAN', paymentParams.IBAN);
+			} else {
+				alert('IBAN mora biti unesen');
+				generateBarcode = false;
+			}
+			if (!StringNotDefinedOrEmpty(paymentParams.ModelPlacanja)) {
+				params.append('modelPlacanja', paymentParams.ModelPlacanja);
+			}
+			if (!StringNotDefinedOrEmpty(paymentParams.PozivNaBroj)) {
+				params.append('pozivNaBroj', paymentParams.PozivNaBroj);
+			}
+			if (!StringNotDefinedOrEmpty(paymentParams.SifraNamjene)) {
+				params.append('sifraNamjene', paymentParams.SifraNamjene);
+			}
+			if (!StringNotDefinedOrEmpty(paymentParams.OpisPlacanja)) {
+				params.append('opisPlacanja', paymentParams.OpisPlacanja);
+			}
+			if (!StringNotDefinedOrEmpty(aspect)) {
+				params.append('aspect', aspect);
+			}
+
+			if (!generateBarcode) {
+				return;
+			}
+
+			iframe_url = iframe_base + '?' + params.toString();
 			updateIFRAMEurl();
-/*
+
 			var textToEncode = BarcodePayment.GetEncodedText(paymentParams);
 
 			if (textToEncode == BarcodePayment.ResultCode.InvalidContent) {
@@ -203,7 +245,6 @@
 				alert('Došlo je do greške kod generiranja barkoda');
 				generateBarcode = false;
 			}
-
 
 			// Barcode generation sample copied from library sample
 			PDF417.init(textToEncode, -1, aspect);
@@ -238,7 +279,6 @@
 					y += bh;
 				}
 			}
-      */
 		}
 
 </script>
