@@ -15,7 +15,7 @@
 	<script type="text/javascript">
 
 		iframe_base = "https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html";
-		iframe_url = iframe_base + "?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije&aspect=2";
+		iframe_url = iframe_base + "?iznos=1000,00&primatelj=Ivan Voras&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije&aspect=2";
 
 		jQuery(document).ready(function () {
 			// Initialize the library
@@ -72,7 +72,7 @@
 			paymentParams.ModelPlacanja = getValueByElementId('modelPlacanja');
 			paymentParams.PozivNaBroj = getValueByElementId('pozivNaBroj');
 			paymentParams.SifraNamjene = getValueByElementId('sifraNamjene');
-			paymentParams.OpisPlacanja = getValueByElementId('opisPlacanja');			
+			paymentParams.OpisPlacanja = getValueByElementId('opisPlacanja');
 
 			return paymentParams
 		}
@@ -97,7 +97,20 @@
 			var paymentParams = GetPaymentParams();
 			var aspect = getValueByElementId('aspect');
 
-			iframe_url = iframe_base + "?iznos=" + paymentParams.Iznos + "&IBAN=" + paymentParams.IBAN + "&modelPlacanja=" + paymentParams.ModelPlacanja + "&pozivNaBroj=" + paymentParams.PozivNaBroj + "&opisPlacanja=" + paymentParams.OpisPlacanja + "&aspect=" + aspect;
+			iframe_url = iframe_base +
+				"?iznos=" + encodeURIComponent(paymentParams.Iznos) +
+				"&imePlatitelja=" + encodeURIComponent(paymentParams.ImePlatitelja) +
+				"&adresaPlatitelja=" + encodeURIComponent(paymentParams.AdresaPlatitelja) +
+				"&sjedistePlatitelja=" + encodeURIComponent(paymentParams.SjedistePlatitelja) +
+				"&primatelj=" + encodeURIComponent(paymentParams.Primatelj) +
+				"&adresaPrimatelja=" + encodeURIComponent(paymentParams.AdresaPrimatelja) +
+				"&sjedistePrimatelja=" + encodeURIComponent(paymentParams.SjedistePrimatelja) +
+				"&IBAN=" + encodeURIComponent(paymentParams.IBAN) +
+				"&modelPlacanja=" + encodeURIComponent(paymentParams.ModelPlacanja) +
+				"&pozivNaBroj=" + encodeURIComponent(paymentParams.PozivNaBroj) +
+				"&sifraNamjene=" + encodeURIComponent(paymentParams.SifraNamjene) +
+				"&opisPlacanja=" + encodeURIComponent(paymentParams.OpisPlacanja) +
+				"&aspect=" + encodeURIComponent(aspect);
 			updateIFRAMEurl();
 /*
 			var textToEncode = BarcodePayment.GetEncodedText(paymentParams);
@@ -437,7 +450,7 @@
 		<h2>IFRAME kod</h2>
 		<p>Da bi koristili ovakav bar kod u web shopu, trebate na odgovarajuće mjesto upisati sljedeći HTML kod:</p>
 		<pre>
-&lt;iframe src="<span id="iframe_code_url">https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije</span>" 
+&lt;iframe src="<span id="iframe_code_url">https://ivoras.github.io/generator-barkoda-uplatnica/iframe.html?iznos=1000,00&IBAN=HR4523400093101015117&modelPlacanja=00&pozivNaBroj=0&opisPlacanja=Konzultacije</span>"
 title="Barkod" width="450" height="200" style="display: block; margin-left: auto; margin-right: auto"&gt;&lt;/iframe&gt;
 		</pre>
 		<p>Naravno, u odgovarajuća polja trebate upisati svoje podatke, one koje želite da se nađu na uplatnici
